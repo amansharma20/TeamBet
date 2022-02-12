@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "907850556787",
+    "project_id": "team-bet",
+    "storage_bucket": "team-bet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907850556787:android:073a676a0904541c5d5106",
+        "android_client_info": {
+          "package_name": "bettingstop.sportscap.realfightbet.onlinecoach.mindmoney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907850556787-edc1gdgos4mummircgkcp4p5b1uc0flt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdW3q5RZM871eQLVQ56ZCpzdST36foUAA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "907850556787-edc1gdgos4mummircgkcp4p5b1uc0flt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
