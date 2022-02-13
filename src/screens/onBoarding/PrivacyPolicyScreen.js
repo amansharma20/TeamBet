@@ -19,7 +19,7 @@ const PrivacyPolicyScreen = () => {
           justifyContent: 'space-between',
           flex: 1,
         }}>
-        <Text style={styles.headerText}>PrivacyPolicy</Text>
+        <Text style={styles.headerText}>Privacy Policy</Text>
 
         <Text style={styles.bodyText}>
           A. Introduction{`\n`}

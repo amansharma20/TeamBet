@@ -1,4 +1,4 @@
-import {StatusBar, StyleSheet, View} from 'react-native';
+import {Alert, StatusBar, StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {WebView} from 'react-native-webview';
 import commonStyles from '../../utils/styles/CommonStyles';
@@ -9,10 +9,14 @@ import {getModel, getAndroidId, getUniqueId} from 'react-native-device-info';
 import * as RNLocalize from 'react-native-localize';
 import axios from 'axios';
 import {screenHeight, screenWidth} from '../../constants/Layout';
+import NetInfo, {useNetInfo} from '@react-native-community/netinfo';
+import {useNavigation} from '@react-navigation/core';
 
 const WebViewScreen = props => {
+  const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [linkLocal, setLinkLocal] = useState();
+  console.log('link local :', linkLocal);
 
   useEffect(() => {
     async function getLinkLocal() {
@@ -45,7 +49,8 @@ const WebViewScreen = props => {
           setIsLoading(false);
           return;
         } else {
-          throw new Error('Failed to fetch');
+          navigation.navigate('HomeScreen');
+          // throw new Error('Failed to fetch');
         }
       } catch (error) {
         if (axios.isCancel(error)) {
@@ -58,10 +63,17 @@ const WebViewScreen = props => {
     fetchApiData();
   }, [linkLocal]);
 
+  // const [netStatus, setNetStatus] = useState();
+  // console.log('netStatus :', netStatus);
+  // NetInfo.fetch().then(state => {
+  //   console.log('Connection type', state.type);
+  //   console.log('Is connected?', state.isConnected);
+  //   setNetStatus(state.isConnected);
+  // });
+
   return (
     <View style={commonStyles.container}>
       <StatusBar backgroundColor={COLORS.background} hidden={true} />
-
       {webViewUrl == undefined ? (
         <>
           <Loading />
@@ -69,6 +81,14 @@ const WebViewScreen = props => {
       ) : (
         <>
           <View style={{flex: 1}}>
+            {/* {netStatus === false ? (
+              Alert.alert(
+                'No Internet Connection',
+                'Please connect to the Internet',
+              )
+            ) : (
+              <View></View>
+            )} */}
             <WebView
               thirdPartyCookiesEnabled={true}
               javaScriptEnabled={true}
