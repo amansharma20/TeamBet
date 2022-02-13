@@ -12,6 +12,10 @@ target 'TeamBet' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
+  pod 'RNLocalize', :path => '../node_modules/react-native-localize'
+
   target 'TeamBetTests' do
     inherit! :complete
     # Pods for testing

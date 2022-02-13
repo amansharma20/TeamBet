@@ -10,16 +10,12 @@ import {
 import React, {useEffect, useState} from 'react';
 import commonStyles from '../../utils/styles/CommonStyles';
 import {initializeApp} from 'firebase/app';
-import {getRemoteConfig} from 'firebase/remote-config';
-import {getString} from 'firebase/remote-config';
-import {fetchAndActivate} from 'firebase/remote-config';
-import {getStorage} from 'firebase/storage';
-import remoteConfig from '@react-native-firebase/remote-config';
 import {COLORS, images, SIZES} from '../../constants';
 import {DATEDATA} from '../../assets/dummyData/dates';
 import {screenWidth} from '../../constants/Layout';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/core';
+
 const firebaseConfig = {
   apiKey: 'AIzaSyCdW3q5RZM871eQLVQ56ZCpzdST36foUAA',
   projectId: 'team-bet',
@@ -40,19 +36,18 @@ const HomeScreen = () => {
   // useEffect(() => {
   //   remoteConfig()
   //     .setDefaults({
-  //       something: 'hey',
+  //       key1: '',
   //     })
   //     .then(() => {
   //       console.log('Default values set.');
   //     });
   // }, [awesomeNewFeature]);
 
-  const awesomeNewFeature = remoteConfig().getAll();
-  const value = remoteConfig().getValue('key');
-  console.log('value');
-  console.log(awesomeNewFeature);
-  console.log(value);
-  console.log('value');
+  // const awesomeNewFeature = remoteConfig().fetchAndActivate();
+  // const value = remoteConfig().getString('key1');
+  // console.log('value');
+  // console.log(value);
+  // console.log('value');
 
   const DateItem = ({date, month, onPressDate, backgroundColor, textColor}) => {
     return (
@@ -66,7 +61,6 @@ const HomeScreen = () => {
   };
 
   const [selectedDate, setSelectedDate] = useState(1);
-  console.log(selectedDate);
 
   const renderDateItem = ({item}) => {
     const backgroundColor =
