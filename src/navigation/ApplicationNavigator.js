@@ -30,7 +30,9 @@ const ApplicationNavigator = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // useEffect(() => {
-  // const link = remoteConfig().fetchAndActivate();
+  //   const getRemoteConfig = remoteConfig()
+  //     .fetchAndActivate()
+  //     .then(res => console.log('remote config res: ', res));
   // }, []);
 
   const [url, setUrl] = useState();
@@ -47,7 +49,7 @@ const ApplicationNavigator = () => {
     async function getLinkLocal() {
       // if (linkLocal !== null)
       const linkLocalAsync = await MyAsyncStorage.getData('linkLocal');
-      console.log('linkLocalAsync :', linkLocalAsync.linkLocal);
+      console.log('linkLocalAsync :', linkLocalAsync?.linkLocal);
       // setLinkLocalAsync(linkLocal?.linkLocal);
       return linkLocalAsync;
     }
@@ -83,6 +85,15 @@ const ApplicationNavigator = () => {
     setIsLoading(true);
     const callRemoteConfig = async () => {
       await remoteConfig()
+        .fetchAndActivate()
+        .then(res => {
+          // console.log('getRemoteConfigRes', res);
+          setRemoteConfigStatus(res);
+        })
+        .catch(err => {
+          // console.log('remoteConfigErr :', err);
+        });
+      await remoteConfig()
         .setDefaults({
           key1: '',
         })
@@ -99,6 +110,23 @@ const ApplicationNavigator = () => {
     };
     callRemoteConfig();
   }, []);
+
+  const [remoteConfigStatus, setRemoteConfigStatus] = useState();
+
+  // useEffect(() => {
+  //   const getRemoteConfig = async () => {
+  //     await remoteConfig()
+  //       .fetchAndActivate()
+  //       .then(res => {
+  //         // console.log('getRemoteConfigRes', res);
+  //         setRemoteConfigStatus(res);
+  //       })
+  //       .catch(err => {
+  //         // console.log('remoteConfigErr :', err);
+  //       });
+  //   };
+  //   getRemoteConfig();
+  // }, [url]);
 
   NetInfo.fetch().then(state => {
     console.log('Connection type', state.type);

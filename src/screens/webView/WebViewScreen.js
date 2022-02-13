@@ -10,8 +10,10 @@ import * as RNLocalize from 'react-native-localize';
 import axios from 'axios';
 import {screenHeight, screenWidth} from '../../constants/Layout';
 import {useNavigation} from '@react-navigation/core';
+import remoteConfig from '@react-native-firebase/remote-config';
 
 const WebViewScreen = props => {
+
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [linkLocal, setLinkLocal] = useState();
