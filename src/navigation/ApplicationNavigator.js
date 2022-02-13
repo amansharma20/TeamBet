@@ -121,9 +121,9 @@ const ApplicationNavigator = () => {
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         keyboardHidesTabBar: true,
       }}>
-      {url == null ? (
+      {url !== null ? (
         <>
-          <Stack.Screen name="OnBoardingScreen" component={OnBoardingScreen} />
+          <Stack.Screen name="WebViewScreen" component={WebViewScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen
             name="PrivacyPolicyScreen"
@@ -144,7 +144,7 @@ const ApplicationNavigator = () => {
         </>
       ) : (
         <>
-          <Stack.Screen name="WebViewScreen" component={WebViewScreen} />
+          <Stack.Screen name="OnBoardingScreen" component={OnBoardingScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen
             name="PrivacyPolicyScreen"
@@ -162,6 +162,24 @@ const ApplicationNavigator = () => {
             name="FootballArticlesScreen"
             component={FootballArticlesScreen}
           />
+          {/* <Stack.Screen name="WebViewScreen" component={WebViewScreen} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen
+            name="PrivacyPolicyScreen"
+            component={PrivacyPolicyScreen}
+          />
+          <Stack.Screen
+            name="DetailsMatchScreen"
+            component={DetailsMatchScreen}
+          />
+          <Stack.Screen
+            name="TeamSupportScreen"
+            component={TeamSupportScreen}
+          />
+          <Stack.Screen
+            name="FootballArticlesScreen"
+            component={FootballArticlesScreen}
+          /> */}
         </>
       )}
     </Stack.Navigator>

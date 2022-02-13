@@ -1,15 +1,14 @@
-import {Alert, StatusBar, StyleSheet, View} from 'react-native';
+import {Keyboard, StatusBar, StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {WebView} from 'react-native-webview';
 import commonStyles from '../../utils/styles/CommonStyles';
 import {COLORS} from '../../constants';
 import Loading from '../../components/Loading';
 import MyAsyncStorage from '../../persistence/storage/MyAsyncStorage';
-import {getModel, getAndroidId, getUniqueId} from 'react-native-device-info';
+import {getModel, getUniqueId} from 'react-native-device-info';
 import * as RNLocalize from 'react-native-localize';
 import axios from 'axios';
 import {screenHeight, screenWidth} from '../../constants/Layout';
-import NetInfo, {useNetInfo} from '@react-native-community/netinfo';
 import {useNavigation} from '@react-navigation/core';
 
 const WebViewScreen = props => {
@@ -18,9 +17,30 @@ const WebViewScreen = props => {
   const [linkLocal, setLinkLocal] = useState();
   console.log('link local :', linkLocal);
 
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  console.log('isKeyboardVisible :', isKeyboardVisible);
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
   useEffect(() => {
     async function getLinkLocal() {
-      // if (linkLocal !== null)
       const linkLocal = await MyAsyncStorage.getData('linkLocal');
       setLinkLocal(linkLocal?.linkLocal);
       return linkLocal;
@@ -63,17 +83,9 @@ const WebViewScreen = props => {
     fetchApiData();
   }, [linkLocal]);
 
-  // const [netStatus, setNetStatus] = useState();
-  // console.log('netStatus :', netStatus);
-  // NetInfo.fetch().then(state => {
-  //   console.log('Connection type', state.type);
-  //   console.log('Is connected?', state.isConnected);
-  //   setNetStatus(state.isConnected);
-  // });
-
   return (
     <View style={commonStyles.container}>
-      <StatusBar backgroundColor={COLORS.background} hidden={true} />
+      <StatusBar backgroundColor={COLORS.background} hidden={!isKeyboardVisible} />
       {webViewUrl == undefined ? (
         <>
           <Loading />
@@ -81,21 +93,12 @@ const WebViewScreen = props => {
       ) : (
         <>
           <View style={{flex: 1}}>
-            {/* {netStatus === false ? (
-              Alert.alert(
-                'No Internet Connection',
-                'Please connect to the Internet',
-              )
-            ) : (
-              <View></View>
-            )} */}
             <WebView
               thirdPartyCookiesEnabled={true}
               javaScriptEnabled={true}
               domStorageEnabled={true}
               setBuiltInZoomControls={false}
               allowFileAccess={true}
-              // originWhitelist={['*']}
               source={{uri: webViewUrl}}
               startInLoadingState={true}
               renderLoading={() => <Loading />}
@@ -105,6 +108,7 @@ const WebViewScreen = props => {
                 height: screenHeight,
               }}
               containerStyle={{width: screenWidth, height: screenHeight}}
+              onLoadEnd={() => console.log('Page Loaded')}
             />
           </View>
         </>
