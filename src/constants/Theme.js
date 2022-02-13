@@ -15,6 +15,7 @@ export const COLORS = {
   switchBackground: '#3A3B3C',
   blackOverlay: 'rgba(0,0,0,0.5)',
   orange: '#F38022',
+  darkBlue: '#133FF6',
 };
 
 export const SIZES = {

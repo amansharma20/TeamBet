@@ -28,7 +28,7 @@ const commonStyles = StyleSheet.create({
     fontWeight: '500',
   },
   h4Text: {
-    color: COLORS.black,
+    color: COLORS.white,
     fontSize: SIZES.h4,
     fontWeight: '500',
   },

@@ -1,4 +1,4 @@
-import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import commonStyles from '../../utils/styles/CommonStyles';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
@@ -13,6 +13,7 @@ const PrivacyPolicyScreen = () => {
   const showAlert = () => Alert.alert('Please mark the checkbox');
   return (
     <View style={commonStyles.container}>
+      <StatusBar backgroundColor={COLORS.background} hidden={false} />
       <View
         style={{
           justifyContent: 'space-between',

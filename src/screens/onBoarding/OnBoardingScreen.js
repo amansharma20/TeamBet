@@ -1,13 +1,14 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import commonStyles from '../../utils/styles/CommonStyles';
-import {images} from '../../constants';
+import {COLORS, images} from '../../constants';
 import {useNavigation} from '@react-navigation/core';
 
 const OnBoardingScreen = () => {
   const navigation = useNavigation();
   return (
     <View style={commonStyles.container}>
+      <StatusBar backgroundColor={COLORS.background} hidden={false} />
       <Image source={images.onBoardingBg} style={styles.imageBg} />
       <View style={styles.titleContainer}>
         <Text
