@@ -29,57 +29,10 @@ const app = initializeApp(firebaseConfig);
 const ApplicationNavigator = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const getRemoteConfig = remoteConfig()
-  //     .fetchAndActivate()
-  //     .then(res => console.log('remote config res: ', res));
-  // }, []);
-
   const [url, setUrl] = useState();
   console.log('url :', url);
 
-  const setLinkLocal = async linkLocal => {
-    await MyAsyncStorage.storeData('linkLocal', {
-      linkLocal: linkLocal,
-    });
-  };
-
-  const [linkLocalAsync, setLinkLocalAsync] = useState();
-  useEffect(() => {
-    async function getLinkLocal() {
-      // if (linkLocal !== null)
-      const linkLocalAsync = await MyAsyncStorage.getData('linkLocal');
-      console.log('linkLocalAsync :', linkLocalAsync?.linkLocal);
-      // setLinkLocalAsync(linkLocal?.linkLocal);
-      return linkLocalAsync;
-    }
-    getLinkLocal();
-  }, []);
-
-  // {
-  //   if (linkLocalAsync == null) {
-  //     useEffect(() => {
-  //       setIsLoading(true);
-  //       const callRemoteConfig = async () => {
-  //         await remoteConfig()
-  //           .setDefaults({
-  //             key1: '',
-  //           })
-  //           .then(res => {
-  //             console.log('Default values set.');
-  //             setIsLoading(false);
-  //           })
-  //           .catch(err => console.log(err));
-  //         const value = await remoteConfig().getString('key1');
-  //         setUrl(value);
-  //         setLinkLocal(value);
-  //         console.log('value :', value);
-  //         setIsLoading(false);
-  //       };
-  //       callRemoteConfig();
-  //     }, []);
-  //   } else console.log('linkLocalAsync not null');
-  // }
+  const [linkLocal, setLinkLocal] = useState('');
 
   useEffect(() => {
     setIsLoading(true);
@@ -111,22 +64,13 @@ const ApplicationNavigator = () => {
     callRemoteConfig();
   }, []);
 
-  const [remoteConfigStatus, setRemoteConfigStatus] = useState();
+  useEffect(() => {
+    MyAsyncStorage.storeData('linkLocal', {
+      linkLocal: linkLocal,
+    });
+  }, [linkLocal]);
 
-  // useEffect(() => {
-  //   const getRemoteConfig = async () => {
-  //     await remoteConfig()
-  //       .fetchAndActivate()
-  //       .then(res => {
-  //         // console.log('getRemoteConfigRes', res);
-  //         setRemoteConfigStatus(res);
-  //       })
-  //       .catch(err => {
-  //         // console.log('remoteConfigErr :', err);
-  //       });
-  //   };
-  //   getRemoteConfig();
-  // }, [url]);
+  const [remoteConfigStatus, setRemoteConfigStatus] = useState();
 
   NetInfo.fetch().then(state => {
     console.log('Connection type', state.type);
@@ -151,7 +95,10 @@ const ApplicationNavigator = () => {
       }}>
       {url !== null ? (
         <>
-          <Stack.Screen name="WebViewScreen" component={WebViewScreen} />
+          <Stack.Screen
+            name="WebViewScreen"
+            component={() => <WebViewScreen value={url} />}
+          />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen
             name="PrivacyPolicyScreen"

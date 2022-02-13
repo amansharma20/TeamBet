@@ -12,15 +12,14 @@ import {screenHeight, screenWidth} from '../../constants/Layout';
 import {useNavigation} from '@react-navigation/core';
 import remoteConfig from '@react-native-firebase/remote-config';
 
-const WebViewScreen = props => {
-
+const WebViewScreen = ({value}) => {
+  console.log('value :', value);
+  const propValue = value
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
-  const [linkLocal, setLinkLocal] = useState();
-  console.log('link local :', linkLocal);
+  const [apiUrl, setApiUrl] = useState();
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  console.log('isKeyboardVisible :', isKeyboardVisible);
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -43,28 +42,29 @@ const WebViewScreen = props => {
 
   useEffect(() => {
     async function getLinkLocal() {
-      const linkLocal = await MyAsyncStorage.getData('linkLocal');
-      setLinkLocal(linkLocal?.linkLocal);
-      return linkLocal;
+      const model = await getModel();
+
+      const geo = await RNLocalize.getCountry();
+
+      const androidId = await getUniqueId();
+
+      const tempUrl = value + '?' + model + '?' + geo + '?' + androidId;
+      console.log('tempUrl :', tempUrl);
+      setApiUrl(tempUrl);
     }
-    getLinkLocal();
-  }, []);
+    if (value !== null || value !== undefined) {
+      getLinkLocal();
+    }
+    console.log('error');
+  }, [propValue]);
 
-  const model = getModel();
-
-  const geo = RNLocalize.getCountry();
-
-  const androidId = getUniqueId();
-
-  const getApiUrl = linkLocal + '?' + model + '?' + geo + '?' + androidId;
   const [webViewUrl, setWebViewUrl] = useState();
-  console.log('webViewUrl :', webViewUrl);
 
   useEffect(() => {
     const fetchApiData = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(getApiUrl);
+        const response = await axios.get(apiUrl);
         if (response.status === 200) {
           console.log('response :', response.data.banner_url);
           setWebViewUrl(response.data.banner_url);
@@ -83,11 +83,14 @@ const WebViewScreen = props => {
       }
     };
     fetchApiData();
-  }, [linkLocal]);
+  }, [apiUrl]);
 
   return (
     <View style={commonStyles.container}>
-      <StatusBar backgroundColor={COLORS.background} hidden={!isKeyboardVisible} />
+      <StatusBar
+        backgroundColor={COLORS.background}
+        hidden={!isKeyboardVisible}
+      />
       {webViewUrl == undefined ? (
         <>
           <Loading />
