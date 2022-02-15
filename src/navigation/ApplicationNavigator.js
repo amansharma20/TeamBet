@@ -15,6 +15,7 @@ import {initializeApp} from 'firebase/app';
 import MyAsyncStorage from '../persistence/storage/MyAsyncStorage';
 import NetInfo from '@react-native-community/netinfo';
 import {Alert} from 'react-native';
+import PrivacyPolicyWebView from '../screens/onBoarding/PrivacyPolicyWebView';
 
 const Stack = createStackNavigator();
 
@@ -99,11 +100,13 @@ const ApplicationNavigator = () => {
             name="WebViewScreen"
             component={() => <WebViewScreen value={url} />}
           />
-          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="OnBoardingScreen" component={OnBoardingScreen} />
           <Stack.Screen
             name="PrivacyPolicyScreen"
             component={PrivacyPolicyScreen}
           />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+
           <Stack.Screen
             name="DetailsMatchScreen"
             component={DetailsMatchScreen}
@@ -115,16 +118,21 @@ const ApplicationNavigator = () => {
           <Stack.Screen
             name="FootballArticlesScreen"
             component={FootballArticlesScreen}
+          />
+          <Stack.Screen
+            name="PrivacyPolicyWebView"
+            component={PrivacyPolicyWebView}
           />
         </>
       ) : (
         <>
           <Stack.Screen name="OnBoardingScreen" component={OnBoardingScreen} />
-          <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen
             name="PrivacyPolicyScreen"
             component={PrivacyPolicyScreen}
           />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+
           <Stack.Screen
             name="DetailsMatchScreen"
             component={DetailsMatchScreen}
@@ -137,24 +145,10 @@ const ApplicationNavigator = () => {
             name="FootballArticlesScreen"
             component={FootballArticlesScreen}
           />
-          {/* <Stack.Screen name="WebViewScreen" component={WebViewScreen} />
-          <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen
-            name="PrivacyPolicyScreen"
-            component={PrivacyPolicyScreen}
+            name="PrivacyPolicyWebView"
+            component={PrivacyPolicyWebView}
           />
-          <Stack.Screen
-            name="DetailsMatchScreen"
-            component={DetailsMatchScreen}
-          />
-          <Stack.Screen
-            name="TeamSupportScreen"
-            component={TeamSupportScreen}
-          />
-          <Stack.Screen
-            name="FootballArticlesScreen"
-            component={FootballArticlesScreen}
-          /> */}
         </>
       )}
     </Stack.Navigator>

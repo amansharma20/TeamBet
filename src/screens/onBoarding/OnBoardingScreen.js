@@ -27,7 +27,7 @@ const OnBoardingScreen = () => {
           fully.
         </Text>
         <TouchableOpacity
-          onPress={() => navigation.navigate('PrivacyPolicyScreen')}
+          onPress={() => navigation.push('PrivacyPolicyScreen')}
           style={styles.btnContainer}>
           <Text style={commonStyles.h2Text}>Next</Text>
         </TouchableOpacity>

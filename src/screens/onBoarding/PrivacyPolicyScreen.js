@@ -1,9 +1,19 @@
-import {Alert, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 import commonStyles from '../../utils/styles/CommonStyles';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {useNavigation} from '@react-navigation/core';
 import {COLORS} from '../../constants';
+import WebView from 'react-native-webview';
+import Loading from '../../components/Loading';
 
 const PrivacyPolicyScreen = () => {
   const [checkBoxState, setCheckBoxState] = useState(false);
@@ -25,7 +35,8 @@ const PrivacyPolicyScreen = () => {
           A. Introduction{`\n`}
           1. The privacy of visitors to our app Team Bet is very important to us
           and we are committed to protecting it. The privacy policy contains a
-          description of the processing of personal information.{`\n`}
+          description of the processing of personal information.
+          {`\n`}
           {`\n`}
           B. Collection of personal information{`\n`}
           The following types of personal data may be collected, stored and
@@ -45,21 +56,49 @@ const PrivacyPolicyScreen = () => {
           address, phone number, email address; 6. any other personal
           information you send to us.
         </Text>
-        <View>
+        <View style={{flexDirection: 'row', alignSelf: 'center'}}>
           <BouncyCheckbox
             size={25}
             fillColor={COLORS.background}
             unfillColor="#062128"
-            text="I agree with the Privacy Policy"
+            text=""
             iconStyle={{borderColor: 'white'}}
             textStyle={{textDecorationLine: 'none', color: 'white'}}
             onPress={() => setCheckBoxState(!checkBoxState)}
             style={{alignSelf: 'center'}}
           />
+          <Text
+            style={[
+              commonStyles.h4Text,
+              {alignSelf: 'center', color: 'white', fontWeight: '500'},
+            ]}>
+            I agree with the
+          </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PrivacyPolicyWebView')}
+            style={{alignItems: 'center'}}>
+            <Text
+              style={[
+                commonStyles.h4Text,
+                {
+                  alignSelf: 'center',
+                  color: 'white',
+                  fontWeight: '900',
+                  marginLeft: 3,
+                  marginTop: 2,
+                },
+              ]}>
+              Privacy Policy
+            </Text>
+          </TouchableOpacity>
         </View>
 
         <View
-          style={{flexDirection: 'row', alignSelf: 'center', height: '12%'}}>
+          style={{
+            flexDirection: 'row',
+            alignSelf: 'center',
+            height: '12%',
+          }}>
           <TouchableOpacity
             onPress={() => navigation.navigate('PrivacyPolicyScreen')}
             style={[
@@ -112,7 +151,7 @@ const styles = StyleSheet.create({
   bodyText: {
     textAlign: 'left',
     paddingHorizontal: 20,
-    // paddingVertical: '10%',
+    color: 'white',
   },
 
   btnContainer: {

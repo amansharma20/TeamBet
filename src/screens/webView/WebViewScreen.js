@@ -69,7 +69,7 @@ const WebViewScreen = ({value}) => {
           setIsLoading(false);
           if (response.data.banner_url === undefined) {
             console.log('homehomehomehome');
-            navigation.navigate('HomeScreen');
+            navigation.navigate('OnBoardingScreen');
           }
           return;
         }
