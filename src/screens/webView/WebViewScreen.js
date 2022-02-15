@@ -4,17 +4,14 @@ import {WebView} from 'react-native-webview';
 import commonStyles from '../../utils/styles/CommonStyles';
 import {COLORS} from '../../constants';
 import Loading from '../../components/Loading';
-import MyAsyncStorage from '../../persistence/storage/MyAsyncStorage';
 import {getModel, getUniqueId} from 'react-native-device-info';
 import * as RNLocalize from 'react-native-localize';
 import axios from 'axios';
-import {screenHeight, screenWidth} from '../../constants/Layout';
 import {useNavigation} from '@react-navigation/core';
-import remoteConfig from '@react-native-firebase/remote-config';
 
 const WebViewScreen = ({value}) => {
   console.log('value :', value);
-  const propValue = value
+  const propValue = value;
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [apiUrl, setApiUrl] = useState();
@@ -59,6 +56,7 @@ const WebViewScreen = ({value}) => {
   }, [propValue]);
 
   const [webViewUrl, setWebViewUrl] = useState();
+  console.log('webViewUrl :', webViewUrl);
 
   useEffect(() => {
     const fetchApiData = async () => {
@@ -69,10 +67,11 @@ const WebViewScreen = ({value}) => {
           console.log('response :', response.data.banner_url);
           setWebViewUrl(response.data.banner_url);
           setIsLoading(false);
+          if (response.data.banner_url === undefined) {
+            console.log('homehomehomehome');
+            navigation.navigate('HomeScreen');
+          }
           return;
-        } else {
-          navigation.navigate('HomeScreen');
-          // throw new Error('Failed to fetch');
         }
       } catch (error) {
         if (axios.isCancel(error)) {
@@ -91,7 +90,7 @@ const WebViewScreen = ({value}) => {
         backgroundColor={COLORS.background}
         hidden={!isKeyboardVisible}
       />
-      {webViewUrl == undefined ? (
+      {webViewUrl === undefined ? (
         <>
           <Loading />
         </>
@@ -107,12 +106,6 @@ const WebViewScreen = ({value}) => {
               source={{uri: webViewUrl}}
               startInLoadingState={true}
               renderLoading={() => <Loading />}
-              style={{
-                overflow: 'hidden',
-                width: screenWidth,
-                height: screenHeight,
-              }}
-              containerStyle={{width: screenWidth, height: screenHeight}}
               onLoadEnd={() => console.log('Page Loaded')}
             />
           </View>
